@@ -1,5 +1,8 @@
+const { getWeth } = require("../scripts/getWeth")
+
 async function main() {
     // the protocal treats everything as an ERC20 token
+    await getWeth()
 }
 
 main()
