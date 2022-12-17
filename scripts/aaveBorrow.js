@@ -29,6 +29,17 @@ async function main() {
     const daiTokenAddress = networkConfig[network.config.chainId].daiToken
     await borrowDai(daiTokenAddress, lendingPool, amountDaiToBorrowWei, deployer)
     await getBorrowUserData(lendingPool, deployer)
+
+    // repay
+    await repay(amountDaiToBorrowWei, daiTokenAddress, lendingPool, deployer)
+    await getBorrowUserData(lendingPool, deployer)
+}
+
+async function repay(amount, daiAddress, lendingPool, account) {
+    await approveErc20(daiAddress, lendingPool.address, amount, account)
+    const repayTx = await lendingPool.repay(daiAddress, amount, 1, account)
+    await repayTx.wait(1)
+    console.log("Repaied!")
 }
 
 async function borrowDai(
